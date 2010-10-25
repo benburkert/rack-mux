@@ -15,7 +15,7 @@ module Rack
     end
 
     def call(env)
-      @app.call(env.merge(HEADER => @uri.to_s))
+      @app.call(env.merge(HEADER => @uri.to_s, 'SERVER_PORT' => @port.to_s))
     end
 
     def rackup

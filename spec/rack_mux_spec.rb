@@ -13,4 +13,8 @@ describe Rack::Mux do
     new_uri = JSON.parse(new_client.get('/').body)['X-Mux-Uri']
     new_uri.should == uri
   end
+
+  it 'sets the SERVER_PORT header' do
+    JSON.parse(@client.get('/').body)['SERVER_PORT'].should_not be_empty
+  end
 end
