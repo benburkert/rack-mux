@@ -2,7 +2,7 @@ require 'rack'
 
 module Rack
   class Mux
-    VERSION = '0.1.1'
+    VERSION = '0.1.2.pre'
     HEADER  = 'X-Mux-Uri'
 
     def initialize(app, options = {})
