@@ -20,7 +20,7 @@ module Rack
 
     def rackup
       Thread.new(server_options) do |options|
-        Server.start(server_options)
+        Server.start(options)
       end
 
       wait_for_server
@@ -39,24 +39,26 @@ module Rack
     end
 
     def find_port
-      port = rand(64510) + 1025
-
-      begin
-        TCPSocket.new(@host, port)
-        retry
-      rescue Errno::ECONNREFUSED
-        return port
+      loop do
+        port = rand(64510) + 1025
+        begin
+          TCPSocket.new(@host, port)
+        rescue Errno::ECONNREFUSED
+          return port
+        end
       end
     end
 
     def wait_for_server
       Timeout::timeout(30) do
-        begin
-          return TCPSocket.new(@host, @port)
-        rescue Errno::ECONNREFUSED
-          retry
-        rescue => e
-          raise Error, e.message
+        loop do
+          begin
+            return TCPSocket.new(@host, @port)
+          rescue Errno::ECONNREFUSED
+            sleep 1
+          rescue => e
+            raise Error, e.message
+          end
         end
       end
     end

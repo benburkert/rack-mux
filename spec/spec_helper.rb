@@ -1,5 +1,6 @@
 $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
+require 'timeout'
 require 'rack/mux'
 require 'rack/client'
 require 'json'
